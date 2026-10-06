@@ -1,0 +1,23 @@
+# Runtime parameters — loaded by the registry and passed as Graph(config=...).
+# Separate from config/agent.yaml (the static manifest, which carries identity
+# and compile-time requirements only).
+#
+# Every key below has a live reader. The assessment block is forwarded to the
+# inner workflow graph and seeded into its state, because node execute()
+# methods take no config argument — state seeding is the only route a runtime
+# value can travel into a domain node.
+
+max_retry: 3
+timeout_s: 30
+
+assessment:
+  # A declared retention period longer than this raises a governance finding.
+  # Read by the data-governance step; changing it changes the gaps in the
+  # released attestation.
+  retention_review_days: 730
+  # Number of high-severity governance gaps tolerated before the attestation
+  # reports NON_COMPLIANT rather than REQUIRES_ACTION. Read by the attestation
+  # step.
+  high_severity_gap_ceiling: 0
+  # Number of critical AI Act documentation gaps tolerated on the same axis.
+  critical_gap_ceiling: 0
